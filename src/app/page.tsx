@@ -17,7 +17,6 @@ export default function Home() {
 	const [gridOpacity, setGridOpacity] = useState<number>(0.5);
 	const [gridColor, setGridColor] = useState<string>("#000000");
 	const [bgColor, setBgColor] = useState<string>("#ffffff");
-	const [exportScale, setExportScale] = useState<number>(1);
 	const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 	const [gridOn, setGridOn] = useState<boolean>(true);
 
@@ -81,8 +80,8 @@ export default function Home() {
 		const imgH = imgEl.naturalHeight || imgEl.height;
 
 		// Taille du canvas = taille native de l'image (pour export net)
-		canvas.width = Math.max(1, Math.floor(imgW * exportScale));
-		canvas.height = Math.max(1, Math.floor(imgH * exportScale));
+		canvas.width = Math.max(1, Math.floor(imgW));
+		canvas.height = Math.max(1, Math.floor(imgH));
 
 		// Offscreen pour downscale
 		if (!offscreenRef.current) {
@@ -121,7 +120,7 @@ export default function Home() {
 
 		// Grille
 		if (gridOn) {
-			const step = Math.max(1, Math.floor(gridStep * exportScale));
+			const step = Math.max(1, Math.floor(gridStep));
 			ctx.save();
 			ctx.globalAlpha = Math.max(0, Math.min(1, gridOpacity));
 			ctx.strokeStyle = gridColor;
@@ -149,7 +148,7 @@ export default function Home() {
 	useEffect(() => {
 		draw();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [imgEl, pixelSize, gridOn, gridStep, gridOpacity, gridColor, bgColor, exportScale]);
+	}, [imgEl, pixelSize, gridOn, gridStep, gridOpacity, gridColor, bgColor]);
 
 	// Ajuste le style pour un affichage responsive (sans toucher au buffer export)
 	const canvasStyle = useMemo<React.CSSProperties>(() => ({
@@ -171,6 +170,7 @@ export default function Home() {
 			link.href = canvas.toDataURL(type);
 			link.click();
 		} catch (e) {
+			console.error("Export error:", e);
 			alert("Export impossible. Certaines images externes empêchent l'export sans CORS (crossOrigin). Tente un upload ou héberge l'image avec CORS activé.");
 		}
 	};
@@ -182,7 +182,7 @@ export default function Home() {
 					<span className="inline-flex items-center py-1 text-xl font-medium text-zinc-900">ImgToPixels</span>
 
 					<div className="flex items-center justify-center gap-4 text-[0.8125rem] leading-6 text-slate-500">
-						<p className="hidden md:block">V1.0.2</p>
+						<p className="hidden md:block">V1.0.5</p>
 					</div>
 				</div>
 			</header>
@@ -271,7 +271,7 @@ export default function Home() {
 								defaultValue={[gridStep]}
 								onValueChange={([value]) => setGridStep(value)}
 								disabled={bindGridToPixel}
-							/>							
+							/>
 						</div>
 					</div>
 
@@ -307,7 +307,7 @@ export default function Home() {
 					<ul className="text-sm list-disc pl-5 space-y-2 text-zinc-700">
 						<li>Paste an image directly with ⌘/Ctrl + V.</li>
 						<li>You can also drag and drop an image file into the area above.</li>
-						<li>The "Pixel size" slider controls the size of the blocks (in pixels).</li>
+						<li>The &quot;Pixel size&quot; slider controls the size of the blocks (in pixels).</li>
 						<li>Enable the grid for easy counting: link it to the pixel size or choose a custom step.</li>
 					</ul>
 				</div>
