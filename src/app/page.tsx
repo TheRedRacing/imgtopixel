@@ -310,8 +310,6 @@ export default function Home() {
 						<li>Tu peux aussi glisser-déposer un fichier image dans la zone en haut.</li>
 						<li>Le curseur « Taille pixel » contrôle le côté des blocs (en pixels).</li>
 						<li>Active la grille pour compter facilement : lie-la à la taille des pixels ou choisis un pas personnalisé.</li>
-						<li>Pour l&apos;export, certaines URLs externes peuvent bloquer à cause du CORS. Utilise l&apos;upload fichier si besoin.</li>
-						<li>Augmente « Export x » pour générer une image finale plus grande (utile pour l&apos;impression).</li>
 					</ul>
 				</div>
 			</div>
