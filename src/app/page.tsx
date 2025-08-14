@@ -182,7 +182,7 @@ export default function Home() {
 					<span className="inline-flex items-center py-1 text-xl font-medium text-zinc-900">ImgToPixels</span>
 
 					<div className="flex items-center justify-center gap-4 text-[0.8125rem] leading-6 text-slate-500">
-						<p className="hidden md:block">V1.0.0</p>
+						<p className="hidden md:block">V1.0.2</p>
 					</div>
 				</div>
 			</header>
@@ -193,9 +193,9 @@ export default function Home() {
 						<div
 							onDrop={onDrop}
 							onDragOver={onDragOver}
-							className="rounded-2xl border border-dashed border-zinc-300 bg-white h-full flex flex-col items-center justify-center gap-4 text-center hover:border-blue-300"
+							className="rounded-2xl border border-dashed border-zinc-300 bg-white h-full flex flex-col items-center justify-center gap-6 text-center hover:border-blue-300"
 						>
-							<p className="text-sm text-zinc-600">Glisse-dépose une image ici, ou colle directement (⌘/Ctrl + V)</p>
+							<p className="text-sm text-zinc-600">Drag and drop an image here, or paste it directly. (⌘/Ctrl + V)</p>
 							<div className="flex flex-wrap items-center justify-center">
 								<label className={cn(buttonVariants({ variant: "outline" }))}>
 									<input
@@ -207,7 +207,7 @@ export default function Home() {
 											if (file) loadFromBlob(file);
 										}}
 									/>
-									Importer un fichier
+									Import a file
 								</label>
 							</div>
 						</div>
@@ -235,10 +235,10 @@ export default function Home() {
 				</div>
 				<aside className="bg-white rounded-2xl p-4 sm:p-6 border flex flex-col gap-4 max-h-[calc(100vh-200px)] sticky top-4">
 					<div className="flex flex-col gap-2">
-						<span className="text-xs tabular-nums">Taille pixel : {pixelSize}</span>
+						<span className="text-xs tabular-nums">Pixel size: {pixelSize}px</span>
 						<Slider
 							min={1}
-							max={100}
+							max={40}
 							defaultValue={[pixelSize]}
 							onValueChange={([value]) => setPixelSize(value)}
 						/>
@@ -249,30 +249,29 @@ export default function Home() {
 						<input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
 					</div>
 
-					<hr className="py-2" />
+					<hr className="my-2" />
 
 					<div className="flex items-center gap-2">
 						<Checkbox id="displayGrid" checked={gridOn} onCheckedChange={() => setGridOn(!gridOn)} />
-						<label htmlFor="displayGrid" className="text-xs tabular-nums">Afficher la grille</label>
+						<label htmlFor="displayGrid" className="text-xs tabular-nums">Show grid</label>
 					</div>
 
 					<div className="flex flex-col gap-2">
 						<div className="flex items-center gap-2">
 							<Checkbox id="bindGridToPixel" checked={bindGridToPixel} onCheckedChange={() => setBindGridToPixel(!bindGridToPixel)} />
-							<label htmlFor="bindGridToPixel" className="text-xs tabular-nums">Grille liée à la taille pixel</label>
+							<label htmlFor="bindGridToPixel" className="text-xs tabular-nums">Grid linked to pixel size</label>
 						</div>
 
-						<div className="flex items-center gap-2">
-							<span className="text-xs tabular-nums">Pas</span>
-							<input
-								type="number"
+						<div className="flex flex-col gap-2">
+							<span className="text-xs tabular-nums">Step {gridStep}px</span>
+
+							<Slider
 								min={1}
-								value={gridStep}
-								onChange={(e) => setGridStep(Math.max(1, parseInt(e.target.value || "1")))}
+								max={40}
+								defaultValue={[gridStep]}
+								onValueChange={([value]) => setGridStep(value)}
 								disabled={bindGridToPixel}
-								className="w-20 px-2 py-1 text-xs rounded border bg-white disabled:opacity-50"
-							/>
-							<span className="text-xs">px</span>
+							/>							
 						</div>
 					</div>
 
@@ -295,7 +294,7 @@ export default function Home() {
 						/>
 					</div>
 
-					<div className="mt-auto">
+					<div className="mt-auto pt-4">
 						<Button onClick={() => setImageLoaded(false)} variant={"destructive"} className="w-full">
 							Remove picture
 						</Button>
@@ -304,12 +303,12 @@ export default function Home() {
 			</div>
 			<div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16">
 				<div className=" bg-white rounded-2xl border p-4 sm:p-6 flex flex-col gap-3">
-					<h2 className="text-lg font-semibold">Astuces</h2>
+					<h2 className="text-lg font-semibold">Tips</h2>
 					<ul className="text-sm list-disc pl-5 space-y-2 text-zinc-700">
-						<li>Colle une image directement avec ⌘/Ctrl + V.</li>
-						<li>Tu peux aussi glisser-déposer un fichier image dans la zone en haut.</li>
-						<li>Le curseur « Taille pixel » contrôle le côté des blocs (en pixels).</li>
-						<li>Active la grille pour compter facilement : lie-la à la taille des pixels ou choisis un pas personnalisé.</li>
+						<li>Paste an image directly with ⌘/Ctrl + V.</li>
+						<li>You can also drag and drop an image file into the area above.</li>
+						<li>The "Pixel size" slider controls the size of the blocks (in pixels).</li>
+						<li>Enable the grid for easy counting: link it to the pixel size or choose a custom step.</li>
 					</ul>
 				</div>
 			</div>
